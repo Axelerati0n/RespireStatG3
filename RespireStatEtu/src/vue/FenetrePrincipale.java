@@ -24,7 +24,7 @@ import model.Etablissement;
 
 public class FenetrePrincipale extends JFrame{
 	private static final long serialVersionUID = 1L;
-	private String csvPath;
+	private String csvPath = "C:/Users/axelw/Desktop/res/RespireStatEtu";
 	private static String csvFileName = "ecoles-creches-idf.csv";
 	public FenetrePrincipale(){
 		super();

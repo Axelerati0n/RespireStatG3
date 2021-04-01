@@ -1,7 +1,10 @@
 package vue;
 
+import java.text.DecimalFormat;
+
 import javax.swing.table.AbstractTableModel;
 
+import controleur.ConvertCSV;
 import model.Etablissement;
 
 public class TableauStat1 extends AbstractTableModel{
@@ -26,7 +29,7 @@ public class TableauStat1 extends AbstractTableModel{
 
 	@Override
 	public int getRowCount() {
-		return 5;
+		return 6;
 	}
 	
 	@Override
@@ -47,12 +50,15 @@ public class TableauStat1 extends AbstractTableModel{
 				return "Ville";
 
 			case 3:
-				// Département
-				return "Département";
+				// Distance
+				return "Departement";
 
 			case 4:
 				// PM25
 				return "Taux";
+				
+			case 5:
+				return "Distance (km)";
 
 			default:
 				throw new IllegalArgumentException();
@@ -73,13 +79,30 @@ public class TableauStat1 extends AbstractTableModel{
 				return etabs[columnIndex-1].getLieu().getVille();
 
 			case 3:
-				// Département
 				return etabs[columnIndex-1].getLieu().getDepartement();
 
 			case 4:
 				// PM25
-				return etabs[columnIndex-1].getPollutionNO2(annee);
+				switch(columnIndex-1) {
+                case 0:
+                   return etabs[columnIndex-1].getPollutionNO2(annee);
 
+                case 1:
+                    return etabs[columnIndex-1].getPollutionPM10(annee);
+
+                case 2:
+                    return etabs[columnIndex-1].getPollutionPM25(annee);
+
+
+
+                }
+				
+			case 5:
+				DecimalFormat decimalFormat1 = new DecimalFormat("0.00");
+				 double d1 = etabs[columnIndex-1].getDistance();
+				  var format1 = decimalFormat1.format(d1);
+				return format1;
+				
 			default:
 				throw new IllegalArgumentException();
 			}

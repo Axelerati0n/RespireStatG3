@@ -1,6 +1,8 @@
 package controleur;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import model.Etablissement;
 
@@ -12,6 +14,7 @@ import model.Etablissement;
  */
 public class StatEtab {
 
+	
 	/**
 	 * Calcule la moyenne du polluant N02 pour un département donné
 	 * @param l La liste des établissements
@@ -113,7 +116,7 @@ public class StatEtab {
 	 */
 	public static double getMoyennePolluantPM25Ville(ArrayList<Etablissement> l, String ville, int annee) {
 		double moy = 0;
-		for(Etablissement e : l) {
+		for(Etablissement e : l) {//for each
 			if(e.getLieu().getVille().equals(ville)) {
 				moy+=e.getPollutionPM25(annee);
 			}
@@ -128,10 +131,29 @@ public class StatEtab {
 	 * @return L'établissement le plus polluant au N02
 	 * Flavie Tonon
 	 */
-	public static Etablissement getPlusPolluantNO2(ArrayList<Etablissement> l, int annee) {
-		//TODO Compléter getPlusPolluantNO2 
-		return null;
+	public static Etablissement getPlusPolluantNO2(ArrayList<Etablissement> l, int annee) {		
+		var L1 = l.get(0).getPollutionNO2(annee);
+		int i = 0;
+		int j = 0;
+		
+		for(Etablissement e : l) {
+			
+			if(e.getPollutionNO2(annee)>L1){
+				L1=e.getPollutionNO2(annee);
+				j=i;
+				
+			}
+			i++;
+			
+		}
+		//System.out.println("NO2 : "+L1+" "+annee+" "+" "+j);
+		return l.get(j);
 	}
+		
+		
+		
+		
+	
 	/**
 	 * Trouve l'établissement le plus polluant au PM10 sur une année
 	 * @param l La liste des établissements
@@ -140,8 +162,24 @@ public class StatEtab {
 	 * Flavie Tonon
 	 */
 	public static Etablissement getPlusPolluantPM10(ArrayList<Etablissement> l, int annee) {
-		//TODO Compléter getPlusPolluantPM10 
-		return null;
+		double L1 = l.get(0).getPollutionPM10(annee);
+		int i = 0;
+		int j = 0;
+		
+		for(Etablissement e : l) {
+			
+			if(e.getPollutionPM10(annee)>L1){
+				L1=e.getPollutionPM10(annee);
+				j=i;
+				
+				
+			}
+			i++;
+			
+		}
+		//System.out.println("PM10 : "+L1+" "+annee+" "+" "+j);
+		return l.get(j);
+		
 	}
 	/**
 	 * Trouve l'établissement le plus polluant au PM25 sur une année
@@ -151,7 +189,94 @@ public class StatEtab {
 	 * Flavie Tonon
 	 */
 	public static Etablissement getPlusPolluantPM25(ArrayList<Etablissement> l, int annee) {
-		//TODO Compléter getPlusPolluantPM25 
-		return null;
+		double L1 = l.get(0).getPollutionPM25(annee);
+		int i = 0;
+		int j = 0;
+		
+		for(Etablissement e : l) {
+			
+			if(e.getPollutionPM25(annee)>L1){
+				L1=e.getPollutionPM25(annee);
+				j=i;
+				
+			}
+			i++;
+			
+		}
+		//System.out.println("PM25 : "+L1+" "+annee+" "+" "+j+" "+l.get(j).getIdentifiant()+" "+l.get(j));
+		return l.get(j);
 	}
+	
+	
+	public static double getMoyennePolluantNO2Departement(ArrayList<Etablissement> l, String departement, int annee) {
+		double moy = 0;
+		for(Etablissement e : l) {
+			if(e.getLieu().getDepartement().equals(departement)) {
+				moy+=e.getPollutionNO2(annee);
+			}
+		}
+		return moy/l.size();
+	}
+	
+	public static double getMoyennePolluantPM10Departement(ArrayList<Etablissement> l, String departement, int annee) {
+		double moy = 0;
+		for(Etablissement e : l) {
+			if(e.getLieu().getDepartement().equals(departement)) {
+				moy+=e.getPollutionPM10(annee);
+			}
+		}
+		return moy/l.size();
+	}
+	public static double getMoyennePolluantPM25Departement(ArrayList<Etablissement> l, String departement, int annee) {
+		double moy = 0;
+		for(Etablissement e : l) {
+			if(e.getLieu().getDepartement().equals(departement)) {
+				moy+=e.getPollutionPM25(annee);
+			}
+		}
+		return moy/l.size();
+	}
+	
+	public static double getTauxDeVariationNO2Departement(ArrayList<Etablissement> l, String departement, int annee) {
+		
+		double vf = getMoyennePolluantNO2Departement(l,departement ,annee+1);
+		double vi = getMoyennePolluantNO2Departement(l,departement ,annee);
+		double tv = 0;
+		
+		tv = ((vi-vf)/vi)*100;
+		
+		
+		
+		System.out.println("NO2 -- "+departement+"----"+tv+"------"+annee+"-"+annee+1);
+		
+		return tv;
+	}
+	public static double getTauxDeVariationPM10Departement(ArrayList<Etablissement> l, String departement, int annee) {
+		
+		double vf = getMoyennePolluantPM10Departement(l,departement ,annee+1);
+		double vi = getMoyennePolluantPM10Departement(l,departement ,annee);
+		double tv = 0;
+		
+		tv = ((vi-vf)/vi)*100;
+		
+		
+		
+		System.out.println("PM10 -- "+departement+"----"+tv+"------"+annee+"-"+annee+1);
+		
+		return tv;
+	}
+	public static double getTauxDeVariationPM25Departement(ArrayList<Etablissement> l, String departement, int annee) {
+		
+		double vf = getMoyennePolluantPM25Departement(l,departement ,annee+1);
+		double vi = getMoyennePolluantPM25Departement(l,departement ,annee);
+		double tv = 0;
+		
+		tv = ((vi-vf)/vi)*100;
+		
+		
+		
+		System.out.println("PM25 -- "+departement+"----"+tv+"------"+annee+"-"+annee+1);
+		
+		return tv;
+	}	
 }

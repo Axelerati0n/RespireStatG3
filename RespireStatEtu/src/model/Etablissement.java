@@ -7,6 +7,9 @@ public class Etablissement {
 	private String identifiant;
 	private Lieu lieu;
 	private Type type;
+	private double latitude;
+	private double longitude;
+	private double distance;
 	private CoordGPS coordonnees;
 	private String nomEtablissement;
 	private Map<Integer, Double> polluStatNO2;
@@ -22,6 +25,11 @@ public class Etablissement {
 		polluStatNO2 = new HashMap<Integer, Double>();
 		polluStatPM10 = new HashMap<Integer, Double>();
 		polluStatPM25 = new HashMap<Integer, Double>();
+		//acces a la valeur latitude et longitude dans CoordGPS
+		latitude = getCoordonnees().getLatitude();
+		longitude = getCoordonnees().getLongitude();
+		//acces au calcul de distance avec deux parametres dans CoordGPS
+		distance = getCoordonnees().getCalculeDistance(latitude,longitude);
 	}
 	
 	
@@ -105,8 +113,29 @@ public class Etablissement {
 	public Map<Integer, Double> getPolluStatPM25() {
 		return polluStatPM25;
 	}
-
-
+	
+	
+	/*//get pour rendre public la variable latitude
+	public double getCoordLatitude() {
+		
+		//System.out.println(latitude);
+		return latitude;
+	}
+	//get pour rendre public la variable longitude
+	public double getCoordLongitude() {
+		
+		//System.out.println(latitude);
+		return longitude;
+	}*/
+	//get pour rendre public la variable distance
+	public double getDistance() {
+		
+		
+		return distance;
+	}
+	
+	
+	
 	@Override
 	public String toString() {
 		return "Etablissement [identifiant=" + identifiant + ", lieu=" + lieu + ", type=" + type + ", coordonnees="
